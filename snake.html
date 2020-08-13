@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: skyblue;
+            height: 100%;
+        }
+        .start {
+            position: absolute;
+            background-color: white;
+            width: 20vmin;
+            height: 10vmin;
+            border: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            color: skyblue;
+            font-size: 4vmin;
+        }
+        .start:hover {
+            background-color: yellow;
+            color: skyblue;
+        }
+        #snake {
+            position: absolute;
+            width: 2vmin;
+            height: 2vmin;
+            background-color: black;
+        }
+        #food {
+            position: absolute;
+            width: 2vmin;
+            height: 2vmin;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="food"></div>
+    <div id="food"></div>
+    <div id="food"></div>
+    <button class="start">开 始</button>
+    <script>
+        var start = document.getElementsByClassName('start')[0];
+        var food = document.querySelectorAll('#food');
+        
+        function snake() {
+            this.parts = [
+                {x: 49, y: 50},
+                {x: 50, y: 50},
+                {x: 51, y: 50},
+            ];
+            this.display = function() {
+                console.log('create');
+                for(let i = 0; i < this.parts.length; i++) {
+                    let newDiv = document.createElement("div");
+                    newDiv.id="snake";
+                    newDiv.style.left = this.parts[i].x + 'vmin';
+                    newDiv.style.top = this.parts[i].y + 'vmax';
+                    document.body.appendChild(newDiv);
+                }
+            };
+            this.run = function() {
+                setInterval(() => {
+                      
+                }, 500);
+                
+            };
+            this.eat = function() {
+                this.parts.push({x: this.parts[this.parts.length].x, y: this.parts[this.parts.length].x})
+            }
+        }
+        
+        function foods() {
+            
+        }
+        var snake1 = new snake();
+
+        // 控制方向
+        document.body.onkeydown = function(e) {
+            console.log(e);
+            switch (e.key) {
+                case 'w':
+                    break;
+                case 'a':
+                    break;
+                case 's':
+                    break;
+                case 'd':
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // 点击开始
+        start.addEventListener('click', function() {
+            console.log('start');
+            start.style.display = 'none';
+            snake1.display();
+        })
+
+    </script>
+</body>
+</html>
