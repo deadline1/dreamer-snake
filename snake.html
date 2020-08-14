@@ -56,28 +56,68 @@
         
         function snake() {
             this.parts = [
-                {x: 49, y: 50},
+                {x: 48, y: 50},
                 {x: 50, y: 50},
-                {x: 51, y: 50},
+                {x: 52, y: 50},
             ];
             this.display = function() {
-                console.log('create');
-                for(let i = 0; i < this.parts.length; i++) {
+                console.log(this);
+                for(let j = 0; j < this.parts.length; j++) {
                     let newDiv = document.createElement("div");
                     newDiv.id="snake";
-                    newDiv.style.left = this.parts[i].x + 'vmin';
-                    newDiv.style.top = this.parts[i].y + 'vmax';
+                    newDiv.style.left = this.parts[j].x + 'vmin';
+                    newDiv.style.top = this.parts[j].y + 'vmax';
                     document.body.appendChild(newDiv);
                 }
             };
-            this.run = function() {
-                setInterval(() => {
-                      
-                }, 500);
-                
+            
+            this.goLeft = function() {
+                console.log(this);
+                this.parts[0].x -= 2;
+            }
+            this.goRight = function() {
+                this.parts[0].x += 2;
+            }
+            this.goTop = function() {
+                this.parts[0].y -= 2;
+            }
+            this.goBottom = function() {
+                this.parts[0].y += 2;
+            }
+            this.bodyMove = function(func) {
+                console.log(this);
+                console.log(func);
+                let temp1 = this.parts[0];
+                let temp2 = 0; 
+                let flag = 1;
+                func();
+                for(let i = 1; i < this.parts.length; i++) {
+                    if(flag){
+                        console.log(flag);
+                        temp2 = this.parts[i];
+                        this.parts[i] = temp1;
+                        flag = 0;
+                    } else {
+                        console.log(flag);
+                        temp1 = this.parts[i];
+                        this.parts[i] = temp2;
+                        flag = 1;
+                    }
+                }
+            }
+            
+            this.run = function(func1, func2) {
+                console.log(this);
+                func1.call(this, func2);
+                this.display();
+                // setInterval(() => {
+                //     console.log('----');
+                //     func;
+                //     this.display();
+                // }, 500);
             };
             this.eat = function() {
-                this.parts.push({x: this.parts[this.parts.length].x, y: this.parts[this.parts.length].x})
+                this.parts.push({x: this.parts[this.parts.length].x, y: this.parts[this.parts.length].x});
             }
         }
         
@@ -85,18 +125,36 @@
             
         }
         var snake1 = new snake();
+        var direction = 'd';
+        var tempMove = snake1.goLeft;
 
         // 控制方向
         document.body.onkeydown = function(e) {
-            console.log(e);
+            console.log(e.key);
             switch (e.key) {
                 case 'w':
+                    if(e.key !== 'w' && e.key !== 's') {
+                        tempMove = snake1.goTop;
+                        direction = 'w';
+                    }
                     break;
                 case 'a':
+                    if(e.key !== 'a' && e.key !== 'd') {
+                        tempMove = snake1.goLeft;
+                        direction = 'a';
+                    }
                     break;
                 case 's':
+                    if(e.key !== 'w' && e.key !== 's') {
+                        tempMove = snake1.goBottom;
+                        direction = 's';
+                    }
                     break;
                 case 'd':
+                    if(e.key !== 'd' && e.key !== 'a') {
+                        tempMove = snake1.goRight;
+                        direction = 'd';
+                    }
                     break;
                 default:
                     break;
@@ -108,6 +166,9 @@
             console.log('start');
             start.style.display = 'none';
             snake1.display();
+            console.log(snake1.parts);
+            snake1.run(snake1.bodyMove, tempMove);
+            console.log(snake1.parts);
         })
 
     </script>
