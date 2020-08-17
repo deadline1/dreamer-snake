@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 当把方法作为参数并在函数内部使用时，this指向window，解决方案：call传入对象
+        // var obj = function() {
+        //     this.num = 1,
+        //     this.a = function(func1, func2, obj) {
+        //         func1.call(obj, func2, obj);
+        //     }
+        //     this.b = function(func, obj) {
+        //         console.log(this);
+        //         func.call(obj);
+        //     }
+        //     this.c = function() {
+        //         console.log(this);
+        //         console.log(this.num);
+        //     }
+        // }
+
+        // var obj1 = new obj();
+        // obj1.a(obj1.b, obj1.c, obj1);
+        
+
+        // 赋值为对象时，是指针指向对象（数据会随着对象的改变而变化）
+        // let a = {
+        //     x: 1,
+        //     y: 2
+        // }
+        // let temp1 = a;
+        // let temp2 = a.x;
+        // console.log(temp1);
+        // console.log(temp2);
+        // a.x = 2;
+        // a.y = 3;
+        // console.log(temp1);
+        // console.log(temp2);
+    </script>
+</body>
+</html>

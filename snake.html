@@ -60,19 +60,25 @@
                 {x: 50, y: 50},
                 {x: 52, y: 50},
             ];
+            this.timer = 0;
             this.display = function() {
-                console.log(this);
                 for(let j = 0; j < this.parts.length; j++) {
                     let newDiv = document.createElement("div");
                     newDiv.id="snake";
                     newDiv.style.left = this.parts[j].x + 'vmin';
-                    newDiv.style.top = this.parts[j].y + 'vmax';
+                    newDiv.style.top = this.parts[j].y + 'vmin';
                     document.body.appendChild(newDiv);
                 }
             };
+            this.drawRun = function() {
+                let snakebody = document.querySelectorAll('#snake');
+                for(let j = 0; j < this.parts.length; j++) {
+                    snakebody[j].style.left = this.parts[j].x + 'vmin';
+                    snakebody[j].style.top = this.parts[j].y + 'vmin';
+                }
+            }
             
             this.goLeft = function() {
-                console.log(this);
                 this.parts[0].x -= 2;
             }
             this.goRight = function() {
@@ -84,36 +90,36 @@
             this.goBottom = function() {
                 this.parts[0].y += 2;
             }
-            this.bodyMove = function(func) {
-                console.log(this);
-                console.log(func);
-                let temp1 = this.parts[0];
-                let temp2 = 0; 
+            this.bodyMove = function(func, obj) {
+                let temp1x = this.parts[0].x;
+                let temp1y = this.parts[0].y;
+                let temp2x = 0; 
+                let temp2y = 0;
                 let flag = 1;
-                func();
+                func.call(obj);
                 for(let i = 1; i < this.parts.length; i++) {
                     if(flag){
-                        console.log(flag);
-                        temp2 = this.parts[i];
-                        this.parts[i] = temp1;
+                        temp2x = this.parts[i].x;
+                        temp2y = this.parts[i].y;
+                        this.parts[i].x = temp1x;
+                        this.parts[i].y = temp1y;
                         flag = 0;
                     } else {
-                        console.log(flag);
-                        temp1 = this.parts[i];
-                        this.parts[i] = temp2;
+                        temp1x = this.parts[i].x;
+                        temp1y = this.parts[i].y;
+                        this.parts[i].x = temp2x;
+                        this.parts[i].y = temp2y;
                         flag = 1;
                     }
                 }
             }
             
-            this.run = function(func1, func2) {
-                console.log(this);
-                func1.call(this, func2);
-                this.display();
-                // setInterval(() => {
-                //     func;
-                //     this.display();
-                // }, 500);
+            this.run = function(func1, func2, obj) {
+                // func1 = snake1.bodyMove, func2 = tempMove = snake1.goLeft
+                this.timer =  setInterval(() => {
+                    func1.call(obj, func2, obj);
+                    this.drawRun();
+                }, 1000);
             };
             this.eat = function() {
                 this.parts.push({x: this.parts[this.parts.length].x, y: this.parts[this.parts.length].x});
@@ -129,30 +135,38 @@
 
         // 控制方向
         document.body.onkeydown = function(e) {
-            console.log(e.key);
+            console.log(e);
             switch (e.key) {
                 case 'w':
-                    if(e.key !== 'w' && e.key !== 's') {
+                    if(direction !== 'w' && direction !== 's') {
                         tempMove = snake1.goTop;
                         direction = 'w';
+                        clearInterval(snake1.timer);
+                        snake1.run(snake1.bodyMove, tempMove, snake1);
                     }
                     break;
                 case 'a':
-                    if(e.key !== 'a' && e.key !== 'd') {
+                    if(direction !== 'a' && direction !== 'd') {
                         tempMove = snake1.goLeft;
                         direction = 'a';
+                        clearInterval(snake1.timer);
+                        snake1.run(snake1.bodyMove, tempMove, snake1);
                     }
                     break;
                 case 's':
-                    if(e.key !== 'w' && e.key !== 's') {
+                    if(direction !== 'w' && direction !== 's') {
                         tempMove = snake1.goBottom;
                         direction = 's';
+                        clearInterval(snake1.timer);
+                        snake1.run(snake1.bodyMove, tempMove, snake1);
                     }
                     break;
                 case 'd':
-                    if(e.key !== 'd' && e.key !== 'a') {
+                    if(direction !== 'd' && direction !== 'a') {
                         tempMove = snake1.goRight;
                         direction = 'd';
+                        clearInterval(snake1.timer);
+                        snake1.run(snake1.bodyMove, tempMove, snake1);
                     }
                     break;
                 default:
@@ -165,9 +179,7 @@
             console.log('start');
             start.style.display = 'none';
             snake1.display();
-            console.log(snake1.parts);
-            snake1.run(snake1.bodyMove, tempMove);
-            console.log(snake1.parts);
+            snake1.run(snake1.bodyMove, tempMove, snake1);
         })
 
     </script>
