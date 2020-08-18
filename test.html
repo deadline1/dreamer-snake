@@ -27,7 +27,7 @@
         // obj1.a(obj1.b, obj1.c, obj1);
         
 
-        // 赋值为对象时，是指针指向对象（数据会随着对象的改变而变化）
+        // 赋值为对象时，是指针指向对象（数据会随着对象的改变而变化），深拷贝、浅拷贝
         // let a = {
         //     x: 1,
         //     y: 2
@@ -40,6 +40,35 @@
         // a.y = 3;
         // console.log(temp1);
         // console.log(temp2);
+
+        // 屏幕长宽比值
+        // let wh = 0;
+        // setInterval(() => {
+        //     wh = window.screen.availWidth/window.screen.availHeight;
+        //     console.log(window.screen.availWidth);
+        //     console.log(window.screen.availHeight);
+        //     console.log(wh);
+        // }, 5000);
+        
+        // JSON.stringify()方法比较对象
+        // parts = [
+        //     {x: 22, y: 44},
+        //     {x: 4, y: 12},
+        //     {x: 66, y: 88}
+        // ]
+
+        // array = [
+        //     {x: '2vmin', y: '4vmin'},
+        //     {x: '4vmin', y: '12vmin'},
+        //     {x: '22vmin', y: '44vmin'}
+        // ]
+        // for(let item of array) {
+        //     console.log(item);
+        //     console.log({x: parts[0].x + 'vmin', y: parts[0].y + 'vmin'});
+        //     if(JSON.stringify(item) === JSON.stringify({x: parts[0].x + 'vmin', y: parts[0].y + 'vmin'})) {
+        //         console.log('eat');
+        //     }
+        // }
     </script>
 </body>
 </html>
