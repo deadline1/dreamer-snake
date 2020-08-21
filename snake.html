@@ -65,10 +65,13 @@
                 {x: 48, y: 50},
                 {x: 50, y: 50},
                 {x: 52, y: 50},
+                {x: 54, y: 50},
+                {x: 56, y: 50}
             ];
             this.timer = 0;
             this.grow = false;
-            this.lastPart = {x: 0, y: 0};
+            this.lastPartx = 0,
+            this.lastParty = 0,
             this.display = function() {
                 for(let j = 0; j < this.parts.length; j++) {
                     let newDiv = document.createElement("div");
@@ -99,8 +102,8 @@
                 this.parts[0].y += 2;
             }
             this.bodyMove = function(func, obj) {
-                this.lastPart.x = this.parts[this.parts.length - 1].x;
-                this.lastPart.y = this.parts[this.parts.length - 1].y;
+                this.lastPartx = this.parts[this.parts.length - 1].x;
+                this.lastParty = this.parts[this.parts.length - 1].y;
                 let temp1x = this.parts[0].x;
                 let temp1y = this.parts[0].y;
                 let temp2x = 0; 
@@ -139,10 +142,11 @@
                 }, 400);
             }
             this.eat = function() {
-                console.log(this.parts);
-                console.log('-------------------------------------');
-                console.log(this.lastPart);
-                this.parts.push(this.lastPart);
+                let tempobj = {
+                    x: this.lastPartx,
+                    y: this.lastParty
+                }
+                this.parts.push(tempobj);
                 let newDiv = document.createElement("div");
                 newDiv.id="snake";
                 newDiv.style.left = this.parts[this.parts.length - 1].x + 'vmin';
